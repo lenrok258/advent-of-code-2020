@@ -1,23 +1,51 @@
-input_file = open('input.txt', 'r')
-lines = input_file.readlines()
 
-trees = 0
+def compute_trees(move_horizontal, move_vertical):
 
-position_index = 0
-for line in lines[1:]:
-    line = line.replace('\n', '') 
+    input_file = open('input.txt', 'r')
+    lines = input_file.readlines()
 
-    position_index += 3
+    trees = 0
 
-    if position_index >= len(line):
-        position_index = position_index - len(line)
+    position_x = 0
+    position_y = move_vertical
 
-    position_content = line[position_index]
-    if position_content is '#':
-        trees += 1
+    for line in lines[position_y:]:
 
-    print(line.replace("\n", ''))
-    print(("-" * position_index) + "^")
-    print("position:{}, trees:{}\n".format(position_index, trees))
+        if position_y % move_vertical != 0:
+            position_y += 1
+            continue
 
-print("number_of_trees: {}".format(trees))
+        line = line.replace('\n', '')
+
+        position_x += move_horizontal
+
+        if position_x >= len(line):
+            position_x = position_x - len(line)
+
+        position_content = line[position_x]
+        if position_content is '#':
+            trees += 1
+
+        print(line.replace("\n", ''))
+        print(("-" * position_x) + "^")
+        print("position:{}, trees:{}\n".format(position_x, trees))
+
+        position_y += 1
+
+    return trees
+
+# part 1:
+# trees = compute_trees(3, 1)
+# print("number_of_trees: {}".format(trees))
+
+
+# part 2:
+trees1_1 = compute_trees(1, 1)
+trees3_1 = compute_trees(3, 1)
+trees5_1 = compute_trees(5, 1)
+trees7_1 = compute_trees(7, 1)
+trees1_2 = compute_trees(1, 2)
+
+answer2 = trees1_1 * trees3_1 * trees5_1 * trees7_1 * trees1_2
+
+print("trees multiplication:{}".format(answer2))

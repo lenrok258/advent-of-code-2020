@@ -105,6 +105,6 @@ for line in lines:
         current_passport = ''
         continue
 
-    current_passport += line + " "
+    current_passport += line + " "  
 
 print("answer: {}".format(valid_count))

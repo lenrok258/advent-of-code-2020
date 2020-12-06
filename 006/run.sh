@@ -1,4 +1,4 @@
 #!/bin/bash
 
 clear
-node script.js
+python3 script.py

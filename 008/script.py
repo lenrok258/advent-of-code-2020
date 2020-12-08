@@ -15,15 +15,15 @@ def execute_program(code_to_test):
         if 'INF_LOOP' in line:
             return ('INF_LOOP', acc)
 
-        code, value = parse_line(line)
-        print(f"{code}:{value}\t\tacc:{acc}")
+        instr, value = parse_line(line)
+        print(f"{instr}:{value}\t\tacc:{acc}")
 
-        if code == 'nop':
+        if instr == 'nop':
             idx += 1
-        elif code == 'acc':
+        elif instr == 'acc':
             idx += 1
             acc += value
-        elif code == 'jmp':
+        elif instr == 'jmp':
             idx += value
 
 
@@ -38,16 +38,12 @@ for i in range(len(lines)):
     code_mutation = lines.copy()
     candidate = code_mutation[i]
 
-    if 'jmp' in candidate:
-        code_mutation[i] = candidate.replace('jmp', 'nop')
-    elif 'nop' in candidate:
-        code_mutation[i] = candidate.replace('nop', 'jmp')
-    else:
-        continue
+    instr, value = parse_line(candidate)
+    if instr in ['jmp', 'nop']:
+        mutated_instr = 'nop' if instr == 'jmp' else 'jmp'
+        code_mutation[i] = f"{mutated_instr} {value}"
+        exit_code, acc = execute_program(code_mutation)
+        print(f"\n░░░ {exit_code}, acc:{acc} ░░░\n")
 
-    exit_code, acc = execute_program(code_mutation)
-    print(f"\n░░░ {exit_code}, acc:{acc} ░░░\n")
-    
-    if exit_code == 'BOOTED':
-        break
-    
+        if exit_code == 'BOOTED':
+            break

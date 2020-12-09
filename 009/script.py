@@ -17,8 +17,7 @@ def find_black_sheep_ingredients(numbers, black_sheep):
             return numbers[i:(i + j + 1)]
 
 
-lines = map(int, open('input.txt', 'r').read().splitlines())
-numbers = list(map(int, lines))
+numbers = list(map(int, open('input.txt', 'r').read().splitlines()))
 
 # star 1
 black_sheep = find_black_sheep(numbers, 25)

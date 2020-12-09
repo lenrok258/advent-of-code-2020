@@ -22,9 +22,9 @@ numbers = list(map(int, lines))
 
 # star 1
 black_sheep = find_black_sheep(numbers, 25)
-print(f"░░░ 🐑 Black sheep: {black_sheep}")  # 57195069
+print(f"░░░ Black sheep (🐑): \t{black_sheep}")  # 57195069
 
 # star 2
 ingredients = find_black_sheep_ingredients(numbers, black_sheep)
 ingredients.sort()
-print(f"░░ 🐑🐑 Weakness: {ingredients[0] + ingredients[-1]}")  # 7409241
+print(f"░░░ Weakness: \t\t{ingredients[0] + ingredients[-1]}")  # 7409241

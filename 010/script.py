@@ -1,0 +1,65 @@
+import itertools
+
+numbers = list(map(int, open('input.txt', 'r').read().splitlines()))
+numbers.sort()
+device_j = numbers[-1] + 3
+numbers.append(device_j)
+
+numbers.append(0)
+numbers.sort()
+
+
+def remove_charger(numbers):
+    results = list()
+
+    
+    for i, number in enumerate(numbers[1:], start=1):
+        print("{} {}".format(len(numbers), numbers))
+
+        # device
+        if i == len(numbers) - 1:
+            # print("returning restult")
+            return results
+
+        # print("{} {}".format(i, number))
+        if numbers[i+1] - numbers[i-1] <= 3:
+            print("remove: {}".format(number))
+            n_copy = numbers.copy()
+            n_copy.remove(number)
+            results.append(n_copy)
+            results.extend(remove_charger(n_copy[i:]))
+
+
+results = remove_charger(numbers)
+results.sort()
+
+results = list(k for k, _ in itertools.groupby(results))
+
+print("=========")
+
+for i in results:
+    print("{} {}".format(len(i), i))
+
+print(len(results))
+
+
+# 35
+# one = 0
+# three = 0
+# prv = 0
+
+# for number in numbers:
+#     delta = number - prv
+#     print("{} {}".format(number, delta))
+
+#     if delta == 1:
+#         one += 1
+#     elif delta == 3:
+#         three += 1
+#     prv = number
+
+
+# print(one)
+# print(three)
+
+# print(one*three)

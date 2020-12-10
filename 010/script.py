@@ -17,16 +17,12 @@ cache = dict()
 
 
 def remove_chargers(numbers):
-
     cache_key = frozenset(numbers)
-
     if cache_key in cache:
         return cache[cache_key]
 
     count_success = 0
-
     for i, number in enumerate(numbers[1:], start=1):
-
         # device
         if i == len(numbers) - 1:
             cache[cache_key] = count_success

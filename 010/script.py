@@ -15,7 +15,8 @@ numbers.sort()
 print(numbers)
 
 def remove_charger(numbers):
-    results = list()
+
+    count_success = 0
     
     for i, number in enumerate(numbers[1:], start=1):
 
@@ -25,7 +26,7 @@ def remove_charger(numbers):
         # device
         if i == len(numbers) - 1:
             # print("returning restult")
-            return results
+            return count_success
 
         # print("{} {}".format(i, number))
         if numbers[i+1] - numbers[i-1] <= 3:
@@ -33,8 +34,8 @@ def remove_charger(numbers):
             # print("remove: {}".format(number))
             n_copy = numbers.copy()
             n_copy.remove(number)
-            results.append(n_copy)
-            results.extend(remove_charger(n_copy[i-1:]))
+            count_success += 1
+            count_success += remove_charger(n_copy[i-1:])
 
 
 results = remove_charger(numbers)
@@ -47,7 +48,7 @@ print("=========")
 # for i in results:
 #     print("{} {}".format(len(i), i))
 
-print(len(results))
+print(results + 1)
 
 
 # 35

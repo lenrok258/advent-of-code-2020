@@ -4,6 +4,7 @@ import copy
 
 # test: 37
 
+
 def count_occupied(seats):
     count = 0
     for row in seats:
@@ -11,6 +12,7 @@ def count_occupied(seats):
             if seat == '#':
                 count += 1
     return count
+
 
 def is_seat_taken(seats, y, x):
     if y < 0 or x < 0 or y >= len(seats) or x >= len(seats[y]):
@@ -43,6 +45,7 @@ def is_seat_ok(seats, y, x):
         return True
     return False
 
+
 def reballance(seats):
     new_seats = copy.deepcopy(seats)
     for y, row in enumerate(seats):
@@ -55,11 +58,21 @@ def reballance(seats):
                 new_seats[y][x] = 'L'
     return new_seats
 
+
 def print_ferry(seats):
     print("")
     for s in seats:
         print(s)
     print("")
+
+
+def get_final_ballance(seats):
+    prv_ferry = None
+    ferry = seats
+    while ferry != prv_ferry:
+        prv_ferry = ferry
+        ferry = reballance(ferry)
+    return ferry
 
 
 lines = open('input.txt', 'r').read().splitlines()
@@ -68,12 +81,9 @@ for l in lines:
     row = list(l)
     seats.append(row)
 
-prv_ferry = None
-ferry = seats
-while ferry != prv_ferry:
-    prv_ferry = ferry
-    ferry = reballance(ferry)
-    # print_ferry(ferry)
 
-print_ferry(ferry)
-print(count_occupied(ferry))
+# final_ballance = get_final_ballance(seats)
+cProfile.run('get_final_ballance(seats)')
+
+print_ferry(final_ballance)
+print(count_occupied(final_ballance))

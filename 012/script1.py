@@ -8,8 +8,7 @@ compass = ['E', 'S', 'W', 'N']
 
 
 def rotation(c):
-    move_code = c[0]
-    move_value = c[1]
+    move_code, move_value = c
 
     ret = move_value / 90
     if move_code == 'L':
@@ -18,10 +17,8 @@ def rotation(c):
     return int(ret)
 
 
-def parse_command(command_line):
-    move = command_line[:1]
-    value = int(command_line[1:])
-    return(move, value)
+def parse_command(input):
+    return (input[:1], int(input[1:]))
 
 
 def navigate(commands):
@@ -35,8 +32,7 @@ def navigate(commands):
     facing = 'E'
 
     for c in commands:
-        move_code = c[0]
-        move_value = c[1]
+        move_code, move_value = c
 
         if move_code == 'F':
             moves_counter[facing] += move_value
@@ -51,8 +47,7 @@ def navigate(commands):
     return moves_counter
 
 
-lines = open('input.txt', 'r').read().splitlines()
-commands = list(map(parse_command, lines))
+commands = map(parse_command, open('input.txt', 'r').read().splitlines())
 
 result = navigate(commands)
 

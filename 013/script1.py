@@ -1,8 +1,8 @@
 import itertools
 import cProfile
 
-# test: 25
-# input: 364
+# test: 295
+# input: 161
 
 lines = open('input.txt', 'r').read().splitlines()
 earliest_departure = int(lines[0])

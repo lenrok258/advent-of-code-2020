@@ -35,7 +35,7 @@ def initialize_program(commands):
         if instr == 'mask':
             curr_mask = value
         else:
-            memory[address] = apply_mask(mask, value)
+            memory[instr] = apply_mask(curr_mask, value)
 
     return memory
 

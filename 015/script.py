@@ -9,23 +9,26 @@ numbers = list(
 def play_the_game(rounds):
     observer = 1000
     i, prv_n, turns = 0, -1, dict()
-    while(True):
-        if i < len(numbers):
-            n = numbers[i]
-            turns[n] = [i]
-            prv_n = n
-        else:
-            n = prv_n
-            number_idxs = turns[n]
-            if len(number_idxs) < 2:
-                new_n = 0
-            else:
-                new_n = number_idxs[-1] - number_idxs[-2]
 
-            if new_n not in turns:
-                turns[new_n] = list()
-            turns[new_n].append(i)
-            prv_n = new_n
+    while(i < len(numbers)):
+        n = numbers[i]
+        turns[n] = (-1, i)
+        prv_n = n
+        i += 1
+
+    while(i < rounds):
+        n = prv_n
+        number_idxs = turns[n]
+        if number_idxs[0] == -1:
+            new_n = 0
+        else:
+            new_n = number_idxs[1] - number_idxs[0]
+
+        if new_n not in turns:
+            turns[new_n] = (-1, -1)
+        turns[new_n] = (turns[new_n][1], i)
+
+        prv_n = new_n
 
         i += 1
 
@@ -33,8 +36,7 @@ def play_the_game(rounds):
             print(i)
             observer *= 10
 
-        if (i >= rounds):
-            return prv_n
+    return prv_n
 
 
 print(f"Star1: {play_the_game(2020)}")

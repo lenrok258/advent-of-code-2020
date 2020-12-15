@@ -17,19 +17,18 @@ def play_the_game(rounds):
         i += 1
 
     while(i < rounds):
-        n = prv_n
-        number_idxs = turns[n]
-        if number_idxs[0] == -1:
+        idx_0, idx_1 = turns[prv_n]
+        if idx_0 == -1:
             new_n = 0
         else:
-            new_n = number_idxs[1] - number_idxs[0]
+            new_n = idx_1 - idx_0
 
         if new_n not in turns:
-            turns[new_n] = (-1, -1)
-        turns[new_n] = (turns[new_n][1], i)
+            turns[new_n] = (-1, i)
+        else:   
+            turns[new_n] = (turns[new_n][1], i)
 
         prv_n = new_n
-
         i += 1
 
         if i > observer:
@@ -39,5 +38,5 @@ def play_the_game(rounds):
     return prv_n
 
 
-print(f"Star1: {play_the_game(2020)}")
+# print(f"Star1: {play_the_game(2020)}")
 print(f"Star2: {play_the_game(30000000)}")

@@ -1,9 +1,8 @@
 import re
 import itertools
 
-# test:
-# input - part 1:
-# input - part 2:
+# test: ?
+# input : 855275529001
 
 validations = {}
 my_ticket = []

@@ -4,7 +4,6 @@ import re
 # input: 26869
 
 validations, my_ticket, tickets = {}, [], []
-invalid_sum = 0
 
 input_blocks = open('input.txt', 'r').read().split("\n\n")
 for line in input_blocks[0].splitlines():
@@ -16,12 +15,6 @@ for line in input_blocks[2].splitlines()[1:]:
     tickets.append(line.split(','))
 
 
-print(validations)
-print(my_ticket)
-print(tickets)
-print("------")
-
-
 def is_valid(val):
     for valid_key, valid_values in validations.items():
         for vv in valid_values:
@@ -31,15 +24,9 @@ def is_valid(val):
     return False
 
 
-def is_all_valid(tic):
-    for v in tic:
-        if not is_valid(v):
-            global invalid_sum
-            invalid_sum = invalid_sum + int(v)
+def sum_invalid_fields_in_ticket(ticket):
+    return sum([int(v) if not is_valid(v) else 0 for v in ticket])
 
 
-for tic in tickets:
-    is_all_valid(tic)
-
-
-print(invalid_sum)
+answer = sum(map(sum_invalid_fields_in_ticket, tickets))
+print(answer)

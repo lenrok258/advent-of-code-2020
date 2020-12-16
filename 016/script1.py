@@ -3,9 +3,7 @@ import re
 # test: 71
 # input: 26869
 
-validations = {}
-my_ticket = []
-tickets = []
+validations, my_ticket, tickets = {}, [], []
 invalid_sum = 0
 
 input_blocks = open('input.txt', 'r').read().split("\n\n")

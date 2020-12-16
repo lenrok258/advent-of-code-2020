@@ -9,6 +9,8 @@ my_ticket = []
 tickets = []
 
 input_blocks = open('input.txt', 'r').read().split("\n\n")
+
+
 for line in input_blocks[0].splitlines():
     tiles = re.split(": | or ", line)
     validations[tiles[0]] = (tiles[1], tiles[2])
@@ -68,6 +70,7 @@ def is_ticket_valid(tic):
 
 def resolve_fields(tickets):
     fields_order = []
+    final_solution = {}
     # final_solution = [] * 
     for i in range(len(validations)):
         fields_order.append(list(validations.keys()).copy())
@@ -86,30 +89,35 @@ def resolve_fields(tickets):
 
     # --------
 
-    # for idx, field in enumerate(fields_order):
-    #     if len(field) == 1:
-    #         final_solution[idx] = field
-            # for field in fields_order:
-            #     if len(field) > 1:
+    while True:
+        for i, field in enumerate(fields_order):
+            if len(field) == 1:
+                field_name = field[0]
+                final_solution[i] = field_name
 
+                for f in fields_order:
+                    if field_name in f:
+                        f.remove(field_name)
 
-    return fields_order
+            if len(final_solution) == len(validations.keys()):
+                return final_solution
+
+    return final_solution
 
 
 
 valid_tickets = list(filter(is_ticket_valid, tickets))
-# print(valid_tickets)
-final_solution = resolve_fields(valid_tickets)
 
-# print(tickets)
-for i in final_solution:
-    print(i)
-    # print(len(i))
+final_solution = resolve_fields(valid_tickets)
 
 fields_order = ['departure track','arrival track','wagon','arrival platform','departure location','departure date','row','seat','departure station','route','arrival station','departure time','type','train','zone','arrival location','duration','class','departure platform','price']
 
-solution = ''
-for i, f in enumerate(fields_order):
-    if f.startswith('departure'):
-        solution += f" * {my_ticket[i]}"
-print(solution)
+print(final_solution)
+
+grand_answer = 1
+for k, v in final_solution.items():
+    if v.startswith('departure'):
+        ticket_idx = k
+        grand_answer *= int(my_ticket[ticket_idx])
+
+print(f"Grand answer: {grand_answer}")

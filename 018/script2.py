@@ -24,19 +24,13 @@ def extract_parenthesis(line):
 
 
 def solve(equation):
-    sub_equations = extract_parenthesis(equation)
+    for se in extract_parenthesis(equation):
+        equation = equation.replace(f"({se})", str(solve(se)), 1)
 
-    for se in sub_equations:
-        result = solve(se)
-        equation = equation.replace(f"({se})", str(result), 1)
+    while not equation.count('+') == 0:
+        addition = re.findall('\d+\+\d+', equation)[0]
+        equation = equation.replace(addition, str(eval(addition)), 1)
 
-    while True:
-        if equation.count('+') == 0:
-            break
-        all_additions = re.findall('\d+\+\d+', equation)
-        add = all_additions[0]
-        addition_result = eval(add)
-        equation = equation.replace(add, str(addition_result), 1)
     return eval(equation)
 
 

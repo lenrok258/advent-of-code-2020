@@ -24,11 +24,8 @@ def extract_parenthesis(line):
 
 
 def solve(equation):
-    sub_equations = extract_parenthesis(equation)
-
-    for se in sub_equations:
-        result = solve(se)
-        equation = equation.replace(f"({se})", str(result), 1)
+    for se in extract_parenthesis(equation):
+        equation = equation.replace(f"({se})", str(solve(se)), 1)
 
     while (equation.count('*') != 0 and equation.count('+') != 0):
         tile = re.search("\d+(\*|\+)\d+", equation).group(0)

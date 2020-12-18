@@ -2,10 +2,8 @@ import itertools
 import re
 
 # test: n/a
-# input: 8929569623593
-
-lines = open('input.txt', 'r').read().splitlines()
-lines = list(map(lambda l: l.replace(' ', ''), lines))
+# input - star 1: 8929569623593
+# input - star 2: 231235959382961
 
 
 def extract_parenthesis(line):
@@ -23,9 +21,9 @@ def extract_parenthesis(line):
     return tiles
 
 
-def solve(equation):
+def solve_1(equation):
     for se in extract_parenthesis(equation):
-        equation = equation.replace(f"({se})", str(solve(se)), 1)
+        equation = equation.replace(f"({se})", str(solve_1(se)), 1)
 
     while (equation.count('*') != 0 and equation.count('+') != 0):
         tile = re.search("\d+(\*|\+)\d+", equation).group(0)
@@ -34,4 +32,19 @@ def solve(equation):
     return eval(equation)
 
 
-print(sum(map(solve, lines)))
+def solve_2(equation):
+    for se in extract_parenthesis(equation):
+        equation = equation.replace(f"({se})", str(solve_2(se)), 1)
+
+    while not equation.count('+') == 0:
+        addition = re.findall('\d+\+\d+', equation)[0]
+        equation = equation.replace(addition, str(eval(addition)), 1)
+
+    return eval(equation)
+
+
+lines = open('input.txt', 'r').read().splitlines()
+lines = list(map(lambda l: l.replace(' ', ''), lines))
+
+print(sum(map(solve_1, lines)))
+print(sum(map(solve_2, lines)))

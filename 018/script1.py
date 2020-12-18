@@ -9,9 +9,7 @@ lines = list(map(lambda l: l.replace(' ', ''), lines))
 
 
 def extract_parenthesis(line):
-    tiles = []
-    start_idx = None
-    open_count = 0
+    tiles, start_idx, open_count = [], None, 0
     for i, c in enumerate(line):
         if c == '(':
             open_count += 1

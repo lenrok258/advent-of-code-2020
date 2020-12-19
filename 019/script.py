@@ -10,8 +10,8 @@ rules = {l[0]:l[1].replace('"', '') for l in map(lambda l : l.split(": "), block
 messages = blocks[1].splitlines()
 
 def build_regex(rule, depth = 0):
-    # break loops
-    if depth > 100:
+    # break loops (45 is the longest line in messages)
+    if depth > 45:
         return '' 
 
     if re.match('[a-z]', rule):

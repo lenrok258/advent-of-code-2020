@@ -197,7 +197,7 @@ def solve_puzzle():
             current_idx = last_line[-1]
             matching = get_matching_puzzle(current_idx, 1)
 
-            if matching == None: # no more puzzle going left
+            if matching == None: # no more puzzles going left
                 break
 
             rotate_matching(current_idx, 1, matching)
@@ -209,7 +209,7 @@ def solve_puzzle():
         # find puzzle going down
         matching = get_matching_puzzle(first_left, 2)
 
-        if matching == None: # no more puzzle going down
+        if matching == None: # no more puzzles going down
             break
 
         rotate_matching(first_left, 2, matching)

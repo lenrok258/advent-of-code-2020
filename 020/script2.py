@@ -341,4 +341,3 @@ for y, line in enumerate(raster):
 
 print(final_count)
 
-print("\033[92mKORNEL")

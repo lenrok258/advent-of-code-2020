@@ -232,7 +232,7 @@ def drop_edges(data):
 
 def print_raster(raster):
     for line in raster:
-        print("".join(line))
+         print("".join(line).replace('▓', '\033[92m▓\033[39m'))
 
 # ---------------------------------------------------------------------------
 # ---------------------------------------------------------------------------
@@ -340,3 +340,5 @@ for y, line in enumerate(raster):
             final_count += 1
 
 print(final_count)
+
+print("\033[92mKORNEL")

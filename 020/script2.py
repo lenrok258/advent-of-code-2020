@@ -1,11 +1,11 @@
 
 
 # test: 273
-# input: ?
+# input: 1836
 
 # BLOCK_WIDTH = 10
 
-blocks = open('input_test.txt', 'r').read().split("\n\n")
+blocks = open('input.txt', 'r').read().split("\n\n")
 
 imgs_ids, imgs_data = [], []
 
@@ -229,14 +229,114 @@ def drop_edges(data):
         new_data.append(line[1:-1])
     return new_data
 
+
+def print_raster(raster):
+    for line in raster:
+        print("".join(line))
+
+# ---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+
 puzzles_order = solve_puzzle()
 
 for i in puzzles_order:
     for j in i:
         print(f"{imgs_ids[j]} " , end='')
     print()
+print()
 
 
+raster = []
+for i in range((len(imgs_data[0]) - 2) * len(puzzles_order)):
+    raster.append([])
+
+for j, line in enumerate(puzzles_order):
+    raster_shift = 0 + j*(len(imgs_data[0]) - 2)
+    for puzzle_idx in line:
+        raw_data = drop_edges(imgs_data[puzzle_idx])
+        for i, raw_line in enumerate(raw_data):
+            raster[i + raster_shift].extend(raw_line)
+
+print_raster(raster)
+
+# ---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+
+# (down, right)
+monster_path = [(1, 1), (0, 3), (-1, 1), (0, 1), (1, 1), (0, 3), (-1, 1), (0, 1), (1, 1), (0, 3), (-1, 1), (-1, 1), (1, 0), (0, 1)]
+
+def is_monster_here(raster, y, x):
+    start = raster[y][x]
+    if not start == '#':
+        return False
+    for move in monster_path:
+        y = y + move[0]
+        x = x + move[1]
+        try:
+            if not raster[y][x] == '#':
+                return False
+        except IndexError:
+            return False
+    return True 
 
 
+def show_monster(raster, y, x):
+    l = list(raster[y])
+    l[x] = '▓'
+    raster[y] = "".join(l)
+    for move in monster_path:
+        y = y + move[0]
+        x = x + move[1]
+        l = list(raster[y])
+        l[x] = '▓'
+        raster[y] = "".join(l)
 
+def find_monsters_in_raster(raster):
+    monster_count = 0
+    for y, line in enumerate(raster):
+        for x, c in enumerate(line):
+            monster = is_monster_here(raster, y, x)
+            if monster:
+                monster_count += 1
+                show_monster(raster, y, x)
+    return monster_count
+
+def find_monsters(raster):
+    for i in range(4):
+        monster_count = find_monsters_in_raster(raster)
+        if monster_count == 0:
+            print("rotating raster...")
+            raster = rotate(raster)
+        else:
+            return raster
+
+    monster_count = find_monsters_in_raster(raster)
+    if monster_count == 0:
+        print("flipping raster...")
+        raster = flip_hor(raster)
+    else:
+        return raster
+
+    for i in range(4):
+        monster_count = find_monsters_in_raster(raster)
+        if monster_count == 0:
+            print("rotating raster...")
+            raster = rotate(raster)
+        else:
+            return raster
+
+    return raster
+
+
+raster = find_monsters(raster)
+print_raster(raster)
+
+final_count = 0
+for y, line in enumerate(raster):
+    for x, c in enumerate(line):
+        if c == '#':
+            final_count += 1
+
+print(final_count)

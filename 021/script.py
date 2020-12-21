@@ -1,17 +1,15 @@
-import pprint
 import copy
 import functools
 import operator
 
-pp = pprint.PrettyPrinter(indent=2)
-
-# test: 5
-# input: 
+# test star 1: 5
+# input star 1: 2786
+# test star 2: mxmxvkd,sqjhc,fvjkl
+# input star 2: prxmdlz,ncjv,knprxg,lxjtns,vzzz,clg,cxfz,qdfpq
 
 lines = open('input.txt', 'r').read().splitlines()
 
-data = []
-all_ingredients = []
+data, all_ingredients = [], []
 for line in lines:
     tiles = line.replace(')', '').split(' (contains ')
     ingredients = tiles[0].split(' ')
@@ -19,10 +17,7 @@ for line in lines:
     data.append((ingredients, alergens))
     all_ingredients.extend(ingredients)
 
-all_ingredients = set(all_ingredients)
-
-# pp.pprint(data)
-# print()
+all_ingr = set(all_ingredients)
 
 mappings = {}
 
@@ -32,9 +27,6 @@ for ingredients, alergens in data:
             mappings[a] = ingredients
         else:
             mappings[a] = list(set(mappings[a]).intersection(set(ingredients)))
-
-# pp.pprint(mappings)
-# print()
 
 final_mappings = copy.deepcopy(mappings)
 
@@ -58,29 +50,13 @@ while True:
 
     key_with_one_ingr = None
 
-pp.pprint(final_mappings)
-
 ingr_with_al = set(functools.reduce(operator.iconcat, final_mappings.values(), []))
-print(ingr_with_al)
-print(all_ingredients)
+ingr_with_no_al = all_ingr - ingr_with_al
 
-ingr_with_no_al = all_ingredients - ingr_with_al
+all_ingr_with_dup = list(functools.reduce(operator.iconcat, map(lambda d : d[0], data), []))
+print(sum(map(lambda a: 1 if a in ingr_with_no_al else 0, all_ingr_with_dup)))
 
-print(ingr_with_no_al)
-
-final_count = 0
-for ingredients, alergens in data:
-    for i in ingredients:
-        if i in ingr_with_no_al:
-            final_count += 1
-
-print(final_count)
-
-# --------------------
-# -------------------- STAR 2
-# --------------------
-
+#  STAR 2
 ingr = list(final_mappings.keys())
 ingr.sort()
-alerg = list(map(lambda i: final_mappings[i][0], ingr))
-print(",".join(alerg))
+print(",".join(list(map(lambda i: final_mappings[i][0], ingr))))

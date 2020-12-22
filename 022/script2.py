@@ -9,15 +9,14 @@ deck1 = deque(map(int, blocks[0].splitlines()[1:]))
 deck2 = deque(map(int, blocks[1].splitlines()[1:]))
 
 def play_game(deck1, deck2):
-    deck1_history, deck2_history = [], []
+    decks_history = {}
 
     while True:
         # break inf. loop
-        if deck1 in deck1_history and deck2 in deck2_history:
+        decks_hash = str(hash(tuple(deck1))) + str(hash(tuple(deck2)))
+        if decks_hash in decks_history:
             return (1, deck1)
-
-        deck1_history.append(deck1.copy())
-        deck2_history.append(deck2.copy())
+        decks_history[decks_hash] = True
 
         card1, card2 = deck1.popleft(), deck2.popleft()
 

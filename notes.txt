@@ -138,3 +138,14 @@
 2281 3023 1321 1373 3491 2027 2971 3217 2389 3371 3461 1913 
 1091 3251 3067 2447 3931 1093 3631 1489 1699 1597 1453 1709
 
+
+
+    decks_history = {}
+
+    while True:
+        # break inf. loop
+        decks_hash = str(hash(frozenset(deck1))) + str(hash(frozenset(deck2)))
+        print(decks_hash)
+        if decks_hash in decks_history:
+            return (1, deck1)
+        decks_history[decks_hash] = True
